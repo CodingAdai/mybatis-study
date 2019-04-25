@@ -26,6 +26,7 @@ import org.apache.ibatis.executor.BatchResult;
 /**
  * The primary Java interface for working with MyBatis.
  * Through this interface you can execute commands, get mappers and manage transactions.
+ * 主要接口，通过该接口 执行SQL命令，获取Mapper，管理 事务。
  *
  * @author Clinton Begin
  */

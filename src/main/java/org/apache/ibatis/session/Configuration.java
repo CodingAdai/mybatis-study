@@ -95,6 +95,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * 核心类，保存了各种配置信息，
  * @author Clinton Begin
  */
 public class Configuration {
@@ -142,7 +143,9 @@ public class Configuration {
    */
   protected Class<?> configurationFactory;
 
+  // 存放 Mapper 接口 对应的 MapperProxyFactory
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
+
   protected final InterceptorChain interceptorChain = new InterceptorChain();
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();

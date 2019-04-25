@@ -88,6 +88,7 @@ public class SqlSessionFactoryBuilder {
     }
   }
 
+  //  入口，解析配置，实例化SqlSessionFactory
   public SqlSessionFactory build(Configuration config) {
     return new DefaultSqlSessionFactory(config);
   }
