@@ -122,6 +122,7 @@ public class Configuration {
   protected Set<String> lazyLoadTriggerMethods = new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString"));
   protected Integer defaultStatementTimeout;
   protected Integer defaultFetchSize;
+  // TODO ExecutorType 有3中，分别代表？
   protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
   protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;
   protected AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior = AutoMappingUnknownColumnBehavior.NONE;
@@ -132,6 +133,7 @@ public class Configuration {
   protected ObjectWrapperFactory objectWrapperFactory = new DefaultObjectWrapperFactory();
 
   protected boolean lazyLoadingEnabled = false;
+  // 代理工厂
   protected ProxyFactory proxyFactory = new JavassistProxyFactory(); // #224 Using internal Javassist instead of OGNL
 
   protected String databaseId;
@@ -146,16 +148,26 @@ public class Configuration {
   // 存放 Mapper 接口 对应的 MapperProxyFactory
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
 
+  // 拦截器链
   protected final InterceptorChain interceptorChain = new InterceptorChain();
+  // TypeHandler 类型转换处理
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
+  // 别名转换处理
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
+  // 暂不清楚
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
 
+  // MappedStatement ,比如 键：  org.mybatis.example.BlogMapper.selectBlog   已映射的语句
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection")
       .conflictMessageProducer((savedValue, targetValue) ->
           ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
+
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
+
+  //  ResultMap 结果映射关系 对象
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
+
+  //  ParameterMap 参数映射关系 对象
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
 
@@ -577,6 +589,7 @@ public class Configuration {
 
   public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+    //   绑定 plugin
     statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
     return statementHandler;
   }

@@ -54,7 +54,9 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
+    // 缓存method对应的 MapperMethod
     final MapperMethod mapperMethod = cachedMapperMethod(method);
+    // 执行
     return mapperMethod.execute(sqlSession, args);
   }
 
