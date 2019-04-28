@@ -92,7 +92,13 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     try {
       final Environment environment = configuration.getEnvironment();
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      // 创建Transaction
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+      // 创建Executor，
+      // 有3中，暂不理解。
+      // SIMPLE 就是普通的执行器；
+      // REUSE 执行器会重用预处理语句（prepared statements）；
+      // BATCH 执行器将重用语句并执行批量更新。
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {

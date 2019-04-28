@@ -96,6 +96,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
     parsed = true;
+    // 解析 configuration 节点
     parseConfiguration(parser.evalNode("/configuration"));
     return configuration;
   }
@@ -107,15 +108,22 @@ public class XMLConfigBuilder extends BaseBuilder {
       Properties settings = settingsAsProperties(root.evalNode("settings"));
       loadCustomVfs(settings);
       loadCustomLogImpl(settings);
+      // 类型别名
       typeAliasesElement(root.evalNode("typeAliases"));
+      // 插件
       pluginElement(root.evalNode("plugins"));
+      // 对象工厂
       objectFactoryElement(root.evalNode("objectFactory"));
+      // 暂不清楚
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
+      // 暂不清楚
       reflectorFactoryElement(root.evalNode("reflectorFactory"));
+      // settings 节点下的
       settingsElement(settings);
       // read it after objectFactory and objectWrapperFactory issue #631
       environmentsElement(root.evalNode("environments"));
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
+      // 类型处理器
       typeHandlerElement(root.evalNode("typeHandlers"));
       // 解析Mapper xml文件
       mapperElement(root.evalNode("mappers"));
@@ -170,6 +178,7 @@ public class XMLConfigBuilder extends BaseBuilder {
           try {
             Class<?> clazz = Resources.classForName(type);
             if (alias == null) {
+              // 没有配置alias，则以 类名或注解值 为 别名
               typeAliasRegistry.registerAlias(clazz);
             } else {
               typeAliasRegistry.registerAlias(alias, clazz);
@@ -278,7 +287,9 @@ public class XMLConfigBuilder extends BaseBuilder {
       for (XNode child : context.getChildren()) {
         String id = child.getStringAttribute("id");
         if (isSpecifiedEnvironment(id)) {
+          // 事务工厂
           TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
+          // 数据源
           DataSourceFactory dsFactory = dataSourceElement(child.evalNode("dataSource"));
           DataSource dataSource = dsFactory.getDataSource();
           Environment.Builder environmentBuilder = new Environment.Builder(id)
