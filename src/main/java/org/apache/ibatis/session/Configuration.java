@@ -612,6 +612,7 @@ public class Configuration {
     if (cacheEnabled) {
       executor = new CachingExecutor(executor);
     }
+    // 执行pluginAll，层层代理，获取executor的代理对象
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

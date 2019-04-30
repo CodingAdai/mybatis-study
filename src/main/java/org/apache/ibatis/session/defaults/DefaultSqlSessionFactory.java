@@ -94,7 +94,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
       // 创建Transaction
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
-      // 创建Executor，
+      // 创建Executor，（）
       // 有3中，暂不理解。
       // SIMPLE 就是普通的执行器；
       // REUSE 执行器会重用预处理语句（prepared statements）；
