@@ -76,6 +76,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
           }
         }
       }
+      // 有构造器参数的情况
       constructor = type.getDeclaredConstructor(constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
       try {
         return constructor.newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));

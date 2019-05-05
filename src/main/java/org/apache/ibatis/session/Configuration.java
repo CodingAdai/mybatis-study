@@ -610,6 +610,7 @@ public class Configuration {
       executor = new SimpleExecutor(this, transaction);
     }
     if (cacheEnabled) {
+      // 缓存
       executor = new CachingExecutor(executor);
     }
     // 执行pluginAll，层层代理，获取executor的代理对象

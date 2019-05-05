@@ -37,11 +37,11 @@ import org.apache.ibatis.transaction.Transaction;
  * @author Eduardo Macarron
  */
 public class CachingExecutor implements Executor {
-
+  // 委托模式
   private final Executor delegate;
   private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
-  public CachingExecutor(Executor delegate) {
+  public  CachingExecutor(Executor delegate) {
     this.delegate = delegate;
     delegate.setExecutorWrapper(this);
   }
@@ -79,6 +79,7 @@ public class CachingExecutor implements Executor {
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     BoundSql boundSql = ms.getBoundSql(parameterObject);
+    // key的规则？
     CacheKey key = createCacheKey(ms, parameterObject, rowBounds, boundSql);
     return query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);
   }
@@ -93,6 +94,7 @@ public class CachingExecutor implements Executor {
   public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)
       throws SQLException {
     Cache cache = ms.getCache();
+    // 从缓存获取结果
     if (cache != null) {
       flushCacheIfRequired(ms);
       if (ms.isUseCache() && resultHandler == null) {

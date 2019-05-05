@@ -58,6 +58,7 @@ public class DefaultParameterHandler implements ParameterHandler {
     return parameterObject;
   }
 
+  // 设置参数
   @Override
   public void setParameters(PreparedStatement ps) {
     ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());

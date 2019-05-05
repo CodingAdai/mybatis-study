@@ -42,6 +42,7 @@ public final class MappedStatement {
   private StatementType statementType;
   private ResultSetType resultSetType;
   private SqlSource sqlSource;
+  // 这个cache 是指？
   private Cache cache;
   private ParameterMap parameterMap;
   private List<ResultMap> resultMaps;

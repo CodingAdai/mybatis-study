@@ -24,6 +24,7 @@ import org.apache.ibatis.executor.result.ResultMapException;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * TypeHandler 类型处理器
  * The base {@link TypeHandler} for references a generic type.
  * <p>
  * Important: Since 3.5.0, This class never call the {@link ResultSet#wasNull()} and
@@ -51,6 +52,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
     this.configuration = c;
   }
 
+  // 重要方法，处理参数类型
   @Override
   public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
     if (parameter == null) {

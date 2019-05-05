@@ -174,7 +174,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     }
   }
 
-  //
+  // 处理 结果集
   // HANDLE RESULT SETS
   //
   @Override
@@ -312,6 +312,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
   @SuppressWarnings("unchecked")
   private List<Object> collapseSingleResultList(List<Object> multipleResults) {
+    // 这是为啥？
     return multipleResults.size() == 1 ? (List<Object>) multipleResults.get(0) : multipleResults;
   }
 
